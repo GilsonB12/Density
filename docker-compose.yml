@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg17
+    container_name: density-postgres
+    environment:
+      POSTGRES_USER: density
+      POSTGRES_PASSWORD: density
+      POSTGRES_DB: density
+    ports:
+      - "5432:5432"
+    volumes:
+      - density_pgdata:/var/lib/postgresql/data
+      # roda apenas na PRIMEIRA inicialização do volume
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U density -d density"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  density_pgdata:

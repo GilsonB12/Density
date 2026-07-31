@@ -1,0 +1,53 @@
+[project]
+name = "density"
+version = "0.1.0"
+description = "Production-ready RAG with rigorous built-in evaluation — ask questions about long documents and get answers backed by metrics"
+readme = "README.md"
+license = "MIT"
+authors = [{ name = "Gilson Bezerra", email = "gilsonbezerrab10@gmail.com" }]
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.7",
+    "pydantic-settings>=2.3",
+    "typer>=0.12",
+    "rich>=13.7",
+]
+
+[project.scripts]
+density = "density.cli.app:app"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.2",
+    "ruff>=0.6",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/density"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort (ordem de imports)
+    "UP",  # pyupgrade (sintaxe moderna)
+    "B",   # bugbear (bugs prováveis)
+    "SIM", # simplificações
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = [
+    "integration: exige o Postgres do docker-compose",
+]
