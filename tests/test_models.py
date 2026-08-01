@@ -15,13 +15,18 @@ def test_document_rejects_empty_content():
         Document(source="a.txt", content="")
 
 
-def test_chunk_links_to_document_and_carries_page_metadata():
+def test_chunk_links_to_document_and_carries_span():
     doc = Document(source="contrato.pdf", content="texto longo do contrato")
-    chunk = Chunk(document_id=doc.id, content="texto", index=0, metadata={"page": 12})
+    chunk = Chunk(document_id=doc.id, content="texto", index=0, start=0, end=5)
     assert chunk.document_id == doc.id
-    assert chunk.metadata["page"] == 12
+    assert doc.content[chunk.start : chunk.end] == chunk.content
 
 
 def test_chunk_rejects_negative_index():
     with pytest.raises(ValidationError):
-        Chunk(document_id="x", content="y", index=-1)
+        Chunk(document_id="x", content="y", index=-1, start=0, end=1)
+
+
+def test_chunk_rejects_end_before_start():
+    with pytest.raises(ValidationError):
+        Chunk(document_id="x", content="y", index=0, start=10, end=5)

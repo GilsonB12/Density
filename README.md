@@ -36,7 +36,7 @@ uv run pytest
 ## Roadmap
 
 - [x] 0 — Scaffolding (uv, ruff, pytest, docker-compose pgvector)
-- [ ] 1 — Ingestion (PDF/TXT/MD) + chunking strategies
+- [x] 1 — Ingestion (PDF/TXT/MD) + chunking strategies
 - [ ] 2 — Embeddings + pgvector storage
 - [ ] 3 — Dense retrieval (`density query`)
 - [ ] 4 — Grounded generation with citations (`density ask`)
