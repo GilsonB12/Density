@@ -29,7 +29,10 @@ Evaluation: golden dataset ─▶ RAGAS (faithfulness, relevancy, context precis
 ```bash
 docker compose up -d   # Postgres + pgvector
 uv sync                # install deps into .venv
-uv run density --help
+cp .env.example .env   # then set OPENAI_API_KEY
+
+uv run density ingest mydoc.pdf            # chunk + embed + store in pgvector
+uv run density ingest mydoc.pdf --dry-run  # preview chunks (no API key needed)
 uv run pytest
 ```
 
@@ -37,7 +40,7 @@ uv run pytest
 
 - [x] 0 — Scaffolding (uv, ruff, pytest, docker-compose pgvector)
 - [x] 1 — Ingestion (PDF/TXT/MD) + chunking strategies
-- [ ] 2 — Embeddings + pgvector storage
+- [x] 2 — Embeddings + pgvector storage
 - [ ] 3 — Dense retrieval (`density query`)
 - [ ] 4 — Grounded generation with citations (`density ask`)
 - [ ] 5 — Evaluation harness: RAGAS + golden dataset (`density eval`)

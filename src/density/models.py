@@ -51,3 +51,10 @@ class Chunk(BaseModel):
         if self.end < self.start:
             raise ValueError(f"span invertido: end ({self.end}) < start ({self.start})")
         return self
+
+
+class EmbeddedChunk(BaseModel):
+    """Um Chunk acompanhado do seu vetor de embedding, pronto para gravação."""
+
+    chunk: Chunk
+    embedding: list[float] = Field(min_length=1)
